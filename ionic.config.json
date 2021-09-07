@@ -1,0 +1,7 @@
+{
+  "name": "Golf Score Card App Ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
