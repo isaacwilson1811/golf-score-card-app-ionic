@@ -1,0 +1,73 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      New Score Card
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">New Score Card</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Golf Course</ion-label>
+      <ion-select placeholder="Select a Course" [(ngModel)]="selectedCourse" required (ionChange)="validateFormData()">
+        <ion-select-option value="1">Course One</ion-select-option>
+        <ion-select-option value="2">Course Two</ion-select-option>
+        <ion-select-option value="3">Course Three</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="selectedCourse">
+    <ion-item>
+      <ion-label>Number of Players</ion-label>
+      <ion-select placeholder="Select Number Of Players" [(ngModel)]="numberOfPlayers" (ionChange)="onChangeNumPlayers()" required (ionChange)="validateFormData()">
+        <ion-select-option value="1">1</ion-select-option>
+        <ion-select-option value="2">2</ion-select-option>
+        <ion-select-option value="3">3</ion-select-option>
+        <ion-select-option value="4">4</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <!-- For Each Player -->
+  <ion-list *ngFor="let player of playerList">
+    <ion-list-header>
+      <ion-label>
+        <ion-icon slot="start" name="person"></ion-icon> Player {{player.order}}
+      </ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        First Name:
+      </ion-label>
+      <ion-input placeholder="First Name" [(ngModel)]="player.first_name" required (ionChange)="validateFormData()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Last Name:
+      </ion-label>
+      <ion-input placeholder="Last Name" [(ngModel)]="player.last_name" required (ionChange)="validateFormData()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Handicap:
+      </ion-label>
+      <ion-select placeholder="Select Handicap" [(ngModel)]="player.hdcp" required (ionChange)="validateFormData()">
+        <ion-select-option value="none">No Handicap</ion-select-option>
+        <ion-select-option value="pro">Pro</ion-select-option>
+        <ion-select-option value="what">Whatever</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" [disabled]="!isFormValid" (click)="onStartGolfing()">{{submitButtonText}}</ion-button>
+
+</ion-content>
