@@ -6,7 +6,11 @@ interface Player {
   first_name: string,
   last_name: string,
   hdcp: string,
-  scores?: any[]
+  scores?: playerScore[]
+}
+interface playerScore {
+  hole: number,
+  strokes: number
 }
 
 @Component({
@@ -27,14 +31,14 @@ export class NewScoreCardPage implements OnInit {
   ngOnInit() {
   }
 
-  validateFormData() {
-    if(this.selectedCourse && this.numberOfPlayers && this.playerList){
+  validateFormData(): void {
+    if(this.selectedCourse && this.numberOfPlayers){
       let validPlayerCount = 0;
-      for(let i = 0; i < this.playerList.length; i++){
-        if(this.playerList[i].first_name && this.playerList[i].last_name && this.playerList[i].hdcp){
+      this.playerList.forEach( player => {
+        if(player.first_name && player.last_name && player.hdcp){
           validPlayerCount ++;
         }
-      }
+      })
       if(validPlayerCount === this.playerList.length){
         this.isFormValid = true;
         this.submitButtonText = "Start Golfing!"
@@ -47,22 +51,21 @@ export class NewScoreCardPage implements OnInit {
 
   onChangeNumPlayers() {
     const pNum = Number(this.numberOfPlayers);
+
     if(!this.playerList){
       this.playerList = [];
-      for(let i = 0; i < pNum; i++){
-        const player = {order:`${i+1}`,first_name:'',last_name:'',hdcp:''}
-        this.playerList.push(player);
+      for(let i = 0; i < pNum; i++) {
+        this.playerList.push({order:`${i+1}`,first_name:'',last_name:'',hdcp:''});
       }
       return;
     }
-    console.log(this.playerList.length)
     const newList = [];
     for(let i = 0; i < pNum; i++){
       if(this.playerList[i]){
         newList.push(this.playerList[i]);
-      }else {
-        const player = {order:`${i+1}`,first_name:'',last_name:'',hdcp:''};
-        newList.push(player);
+      }
+      else {
+        newList.push({order:`${i+1}`,first_name:'',last_name:'',hdcp:''});
       }
     }
     this.playerList = newList.slice(0);
@@ -76,7 +79,7 @@ export class NewScoreCardPage implements OnInit {
     scoreCardData.playersList.forEach(player=>{
       player.scores = [];
       for(let i = 1; i < 10; i++){
-        player.scores.push({hole:i,strokes:null})
+        player.scores.push({hole:i,strokes:0})
       }
     })
     this.sendDataToGame(scoreCardData);
