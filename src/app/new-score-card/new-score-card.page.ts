@@ -1,3 +1,4 @@
+import { SharedAppStateService } from '../services/shared-app-state.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -28,7 +29,14 @@ export class NewScoreCardPage implements OnInit {
 
   public routerStateData: any;
 
-  constructor(private router: Router) {
+  public templateData = {
+    courseList: this.appState.get("courseList")
+  }
+
+  constructor(
+    private appState: SharedAppStateService,
+    private router: Router
+  ) {
     if (this.router.getCurrentNavigation().extras.state) {
       const state = this.router.getCurrentNavigation().extras.state;
       this.routerStateData = state;
@@ -38,6 +46,7 @@ export class NewScoreCardPage implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.templateData.courseList);
   }
 
   validateFormData(): void {

@@ -1,3 +1,4 @@
+import { SharedAppStateService } from '../services/shared-app-state.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -31,7 +32,10 @@ export class CurrentGamePage implements OnInit {
     }
   ]
 
-  constructor(private router: Router){  
+  constructor(
+    private appState: SharedAppStateService,
+    private router: Router
+  ){  
     if (this.router.getCurrentNavigation().extras.state) {
         const state = this.router.getCurrentNavigation().extras.state;
         this.data = state;
