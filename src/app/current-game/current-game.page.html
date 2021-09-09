@@ -19,5 +19,29 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
+
+
+
+  <ion-card *ngFor="let card of cardList">
+    <ion-card-header>
+      <ion-card-title>{{card.title}}</ion-card-title>
+      <ion-card-subtitle>Yards 100</ion-card-subtitle>
+      <ion-card-subtitle>{{card.subtitle}}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let score of card.scoreList">
+          <ion-input type="text" value="{{score.playerName}}" disabled></ion-input>
+          <ion-label>Strokes:</ion-label>
+          <ion-input color="primary" type="number" value="{{score.strokes}}" min="0"></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+
+  
+
 <pre>{{data | json}}</pre>
 </ion-content>
