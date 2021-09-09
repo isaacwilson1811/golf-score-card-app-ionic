@@ -3,6 +3,9 @@
     <ion-title>
       New Score Card
     </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,6 +14,9 @@
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">New Score Card</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
@@ -18,9 +24,9 @@
     <ion-item>
       <ion-label>Golf Course</ion-label>
       <ion-select placeholder="Select a Course" [(ngModel)]="selectedCourse" required (ionChange)="validateFormData()">
-        <ion-select-option value="1">Course One</ion-select-option>
-        <ion-select-option value="2">Course Two</ion-select-option>
-        <ion-select-option value="3">Course Three</ion-select-option>
+        <ion-select-option value="18300">Fox Hollow</ion-select-option>
+        <ion-select-option value="11819">Thanksgiving Point</ion-select-option>
+        <ion-select-option value="19002">Spanish Oaks</ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>

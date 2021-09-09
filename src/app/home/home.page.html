@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Home
+      Golf Score Card App
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,14 +9,40 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Home</ion-title>
+      <ion-title size="large">Golf Score Card App</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <a routerLink="/home">HOME</a>
-    <br>
-    <a routerLink="/new">NEW</a>
+  <div *ngIf="courseList$ | async as courseList; else loading">
+
+
+    <ion-item>
+      <h1>Choose Your Golf Course</h1>
+    </ion-item>
+
+    <ion-card *ngFor="let course of courseList">
+      <ion-card-header>
+        <ion-card-title>
+          {{course.name}}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="{{course.image}}">
+          </ion-thumbnail>
+          <ion-label>It's a Golf Course. <br /> The Course ID is {{course.id}}</ion-label>
+        </ion-item>
+        <ion-button expand="full" shape="round" (click)="onStartSetup(course.id)">Play Golf Here</ion-button>
+      </ion-card-content>
+    </ion-card>
   </div>
+  
+  <ng-template #loading>
+    <div>
+      <h2>Loading Golf Courses...</h2>
+    </div>
+  </ng-template>
   
 </ion-content>

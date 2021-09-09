@@ -1,12 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { GolfCourse, GolfCourseDataService } from '../services/golf-course-data.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit{
 
-  constructor() {}
+  public courseList$!: Observable<GolfCourse[]>;
+
+  constructor(
+    private dataService: GolfCourseDataService,
+    private router: Router
+  ) {}
+
+  ngOnInit(){
+    this.getCourseList$();
+  }
+
+  getCourseList$(): void {
+    this.courseList$ = this.dataService.fetchGolfCourses()
+  }
+
+  onStartSetup(courseID:string): void{
+    this.router.navigate(['new'], {
+      state: {selectedCourseID: courseID}
+    });
+
+  }
 
 }
+

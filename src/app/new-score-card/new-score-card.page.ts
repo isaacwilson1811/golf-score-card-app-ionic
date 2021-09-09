@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 interface Player {
   order: string,
@@ -26,7 +26,16 @@ export class NewScoreCardPage implements OnInit {
   public isFormValid = false;
   public submitButtonText = "Get Ready";
 
-  constructor(private router: Router) { }
+  public routerStateData: any;
+
+  constructor(private router: Router) {
+    if (this.router.getCurrentNavigation().extras.state) {
+      const state = this.router.getCurrentNavigation().extras.state;
+      this.routerStateData = state;
+      console.log(this.routerStateData);
+      this.selectedCourse = `${this.routerStateData.selectedCourseID}`
+    }
+  }
 
   ngOnInit() {
   }
