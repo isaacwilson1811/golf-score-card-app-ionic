@@ -30,27 +30,32 @@ export class NewScoreCardPage implements OnInit {
   public routerStateData: any;
 
   public templateData = {
-    courseList: this.appState.get("courseList")
+    courseList: undefined,
+    selectedCourseID: undefined
   }
 
   constructor(
     private appState: SharedAppStateService,
     private router: Router
   ) {
-    if (this.router.getCurrentNavigation().extras.state) {
-      const state = this.router.getCurrentNavigation().extras.state;
-      this.routerStateData = state;
-      console.log(this.routerStateData);
-      this.selectedCourse = `${this.routerStateData.selectedCourseID}`
-    }
+    // if (this.router.getCurrentNavigation().extras.state) {
+    //   const state = this.router.getCurrentNavigation().extras.state;
+    //   this.routerStateData = state;
+    //   console.log(this.routerStateData);
+    //   this.selectedCourse = `${this.routerStateData.selectedCourseID}`
+    // }
   }
 
   ngOnInit() {
-    console.log(this.templateData.courseList);
+    this.templateData.courseList = this.appState.get("courseList");
+    this.templateData.selectedCourseID = `${this.appState.get("selectedCourseID")}`;
+    if(!this.templateData.courseList){
+      this.router.navigate(['home']);
+    }
   }
 
   validateFormData(): void {
-    if(this.selectedCourse && this.numberOfPlayers){
+    if(this.templateData.selectedCourseID && this.numberOfPlayers){
       let validPlayerCount = 0;
       this.playerList.forEach( player => {
         if(player.first_name && player.last_name && player.hdcp){
@@ -91,7 +96,7 @@ export class NewScoreCardPage implements OnInit {
 
   onStartGolfing(){
     const scoreCardData = {
-      golfCourseID: this.selectedCourse,
+      golfCourseID: this.templateData.selectedCourseID,
       playersList: [...this.playerList],
     }
     scoreCardData.playersList.forEach(player=>{

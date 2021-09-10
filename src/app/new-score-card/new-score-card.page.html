@@ -23,15 +23,18 @@
   <ion-list>
     <ion-item>
       <ion-label>Golf Course</ion-label>
-      <ion-select placeholder="Select a Course" [(ngModel)]="selectedCourse" required (ionChange)="validateFormData()">
-        <ion-select-option value="18300">Fox Hollow</ion-select-option>
-        <ion-select-option value="11819">Thanksgiving Point</ion-select-option>
-        <ion-select-option value="19002">Spanish Oaks</ion-select-option>
+      <ion-select placeholder="Select a Course" [(ngModel)]="templateData.selectedCourseID" required (ionChange)="validateFormData()">
+        <div *ngFor="let course of templateData.courseList">
+          <!-- <ion-select-option value="18300">Fox Hollow</ion-select-option> -->
+          <ion-select-option value="{{course.id}}">{{course.name}}</ion-select-option>
+          <!-- <ion-select-option value="11819">Thanksgiving Point</ion-select-option> -->
+          <!-- <ion-select-option value="19002">Spanish Oaks</ion-select-option> -->
+        </div>
       </ion-select>
     </ion-item>
   </ion-list>
 
-  <ion-list *ngIf="selectedCourse">
+  <ion-list *ngIf="templateData.selectedCourseID !== null">
     <ion-item>
       <ion-label>Number of Players</ion-label>
       <ion-select placeholder="Select Number Of Players" [(ngModel)]="numberOfPlayers" (ionChange)="onChangeNumPlayers()" required (ionChange)="validateFormData()">

@@ -25,12 +25,9 @@ export class HomePage implements OnInit{
     this.courseList$ = this.appState.callAPIThenSaveDataInAppStateAndReturnResultAsCachedReplayOfObservable();
   }
 
-  onStartSetup(courseID:string): void{
-    this.router.navigate(['new'], {
-      state: {selectedCourseID: courseID}
-    });
-
+  navigateToSetupPage(courseID:string): void{
+    this.appState.set('selectedCourseID', courseID);
+    this.router.navigate(['new'], {state: {selectedCourseID: courseID}});
   }
-
 }
 
