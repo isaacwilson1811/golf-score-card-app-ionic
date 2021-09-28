@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="end">
       <span *ngIf="isAuthed">Hello {{currentUserEmail}}</span>
-      <ion-button *ngIf="!isAuthed" color="primary" (click)="testSignIn()">Sign In</ion-button>
+      <span *ngIf="!isAuthed">Not Signed In &nbsp;</span>
       <ion-button *ngIf="isAuthed" color="primary" (click)="testSignOut()">Sign Out</ion-button>
     </ion-buttons>
     <ion-title>
@@ -46,8 +46,6 @@
     </ng-template>
   </div>
   <ng-template #pleaseSignIn>
-    <ion-item>
-      <h1>Please Sign In</h1>
-    </ion-item>
+    <app-login-form></app-login-form>
   </ng-template>
 </ion-content>
