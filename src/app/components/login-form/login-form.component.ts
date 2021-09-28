@@ -23,6 +23,20 @@ export class LoginFormComponent implements OnInit {
     ]
   };
 
+  newUserForm: FormGroup;
+  successMsg2: string = '';
+  errorMsg2: string = '';
+  error_msg2 = {
+    'email': [
+      { type: 'required', message: 'Provide email.' },
+      { type: 'pattern', message: 'Email is not valid.' }
+    ],
+    'password': [
+      { type: 'required', message: 'Password is required.' },
+      { type: 'minlength', message: 'Password length should be 6 characters long.' }
+    ]
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService
@@ -39,6 +53,16 @@ export class LoginFormComponent implements OnInit {
         Validators.required
       ])),
     });
+    this.newUserForm = this.formBuilder.group({
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.minLength(6),
+        Validators.required
+      ])),
+    });
   }
 
   signIn(values: SignInValues) {
@@ -46,6 +70,37 @@ export class LoginFormComponent implements OnInit {
       () => this.errorMsg = "",
       err => { this.errorMsg = err.message; this.successMsg = "";}
     )
+  }
+
+  toggleNewForm(){
+    document.getElementById('registerFormDiv').classList.toggle('hidden');
+    document.getElementById('signInFormDiv').classList.toggle('hidden');
+    document.getElementById('dontHave').classList.toggle('hidden');
+  }
+
+  signUp(values: SignInValues) {
+    this.auth.createUser(values)
+      .then((response) => {
+        this.errorMsg2 = "";
+        this.successMsg2 = "New user created.";
+        // call log in
+        this.auth.signinUser(values)
+          .then((response) => {
+            this.errorMsg2 = "";
+          }, error => {
+            this.errorMsg2 = error.message;
+            this.successMsg2 = "";
+          })
+      }, error => {
+        this.errorMsg2 = error.message;
+        this.successMsg2 = "";
+      })
+  }
+
+  oopsGoBack() {
+    document.getElementById('registerFormDiv').classList.toggle('hidden');
+    document.getElementById('signInFormDiv').classList.toggle('hidden');
+    document.getElementById('dontHave').classList.toggle('hidden');
   }
 
 }

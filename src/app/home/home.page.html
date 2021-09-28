@@ -20,8 +20,8 @@
   <div *ngIf="isAuthed; else pleaseSignIn">
     <div *ngIf="courseList$ | async as courseList; else loading">
       <ion-item>
-        <ion-button>Load Saved ScoreCard</ion-button>
-        <span>&nbsp;...Or Choose A New Golf Course</span>
+        <ion-label>Choose a Golf Course to start a new ScoreCard</ion-label>
+        <ion-button>Or Load Your Saved ScoreCard</ion-button>
       </ion-item>
       <ion-card *ngFor="let course of courseList">
         <ion-card-header>
