@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFireAuth,  } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-// import { Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,15 @@ export class FirebaseService {
   ) { }
 
   // AUTH methods
+
+  getCurrentUser(): Promise<any> {
+    return this.auth.currentUser
+  }
+
+  observableUser(): Observable<any> {
+    return this.auth.user;
+  }
+
   createUser(value) {
     return new Promise<any>((resolve, reject) => {
       this.auth.createUserWithEmailAndPassword(value.email, value.password)

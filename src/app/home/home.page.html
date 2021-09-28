@@ -13,6 +13,9 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-button (click)="testSignIn()">Sign In</ion-button>
+  <ion-button (click)="testSignOut()">Sign Out</ion-button>
+
   <div *ngIf="courseList$ | async as courseList; else loading">
 
 
