@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '../services/firebase.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { SharedAppStateService } from '../services/shared-app-state.service';
 import { GolfCourse } from '../services/golf-course-data.service'; // I just need to use this interface here, not needing the service
@@ -19,7 +19,7 @@ export class HomePage implements OnInit{
   public courseList$!: Observable<GolfCourse[]>;
 
   constructor(
-    private firebase: FirebaseService,
+    private auth: AuthService,
     private appState: SharedAppStateService,
     private router: Router
   ) {}
@@ -30,7 +30,7 @@ export class HomePage implements OnInit{
   }
 
   subscribeToCurrentUser(): void {
-    this.currentUser$ = this.firebase.observableUser();
+    this.currentUser$ = this.auth.getUser();
     this.currentUserSub = this.currentUser$.subscribe(( user )=>{
       console.log('subscription: ', user );
       if( user === null){ this.isAuthed = false; this.currentUserEmail = undefined; }
@@ -44,10 +44,10 @@ export class HomePage implements OnInit{
   }
 
   testSignIn(){
-    this.firebase.signinUser({email:'fake@fake.com', password:'123456'});
+    this.auth.signinUser({email:'fake@fake.com', password:'123456'});
   }
   testSignOut(){
-    this.firebase.signoutUser();
+    this.auth.signoutUser();
   }
 }
 

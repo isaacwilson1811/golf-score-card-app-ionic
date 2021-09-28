@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { FirebaseService } from 'src/app/services/firebase.service';
+import { AuthService, SignInValues } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -25,7 +25,7 @@ export class LoginFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: FirebaseService
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -41,14 +41,11 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  signIn(value) {
-    this.authService.signinUser(value)
-      .then((response) => {
-        this.errorMsg = "";
-      }, error => {
-        this.errorMsg = error.message;
-        this.successMsg = "";
-      })
+  signIn(values: SignInValues) {
+    this.auth.signinUser(values).then(
+      () => this.errorMsg = "",
+      err => { this.errorMsg = err.message; this.successMsg = "";}
+    )
   }
 
 }

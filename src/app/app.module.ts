@@ -13,6 +13,7 @@ import { AngularFireAuthModule, PERSISTENCE } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 // my firebase service
 import { FirebaseService } from './services/firebase.service';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { FirebaseService } from './services/firebase.service';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SharedAppStateService,
+    AuthService,
     FirebaseService,
     {
       provide: PERSISTENCE,
