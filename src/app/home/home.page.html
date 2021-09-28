@@ -20,22 +20,34 @@
   <div *ngIf="isAuthed; else pleaseSignIn">
     <div *ngIf="courseList$ | async as courseList; else loading">
       <ion-item>
-        <h1>Choose Your Golf Course</h1>
+        <ion-button>Load Saved ScoreCard</ion-button>
+        <span>&nbsp;...Or Choose A New Golf Course</span>
       </ion-item>
       <ion-card *ngFor="let course of courseList">
         <ion-card-header>
-          <ion-card-title>
-            {{course.name}}
+          <ion-card-title style="text-align: center;">
+            <h1>{{course.name}}</h1>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <ion-item>
-            <ion-thumbnail slot="start">
-              <img src="{{course.image}}">
-            </ion-thumbnail>
-            <ion-label>It's a Golf Course. <br /> The Course ID is {{course.id}}</ion-label>
+            <div style="margin: 0 auto;">
+              <img style="border-radius: 16px;" src="{{course.image}}">
+            </div>
           </ion-item>
-          <ion-button expand="full" shape="round" (click)="navigateToSetupPage(course.id)">Play Golf Here</ion-button>
+          <ion-item>
+            <ion-label position="stacked">Phone Number: </ion-label>
+            {{course.details.phone}}
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Website: </ion-label>
+            <a href="{{course.details.website}}" target="_blank">{{course.details.website}}</a>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Location:</ion-label>
+            {{course.details.addr1}}. {{course.details.city}}. {{course.details.country}}. {{course.details.zipCode}}
+          </ion-item><ion-item> </ion-item>
+          <ion-button expand="block" shape="round" (click)="navigateToSetupPage(course.id)">New ScoreCard &amp; Play Your Golf Here</ion-button>
         </ion-card-content>
       </ion-card>
     </div>
