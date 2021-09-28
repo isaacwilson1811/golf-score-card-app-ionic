@@ -19,10 +19,7 @@ export class HomePage implements OnInit{
   ) {}
 
   ngOnInit(){
-    // don't call the api service anymore, call the shared state service
-    // it will call the api service for you, then it will give you a cached replay observable after it saves the data for itself
-    // don't worry about it component, just keep doing your thing.
-    this.courseList$ = this.appState.callAPIThenSaveDataInAppStateAndReturnResultAsCachedReplayOfObservable();
+    this.courseList$ = this.appState.preloadCourseList();
   }
 
   navigateToSetupPage(courseID:string): void{

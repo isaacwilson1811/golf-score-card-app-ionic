@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GolfCourse, GolfCourseDataService } from '../services/golf-course-data.service';
 import { PersistentStorageService } from './persistent-storage.service';
-import { Observable, Subscription } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { Observable, forkJoin, of } from 'rxjs';
+import { shareReplay, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -55,17 +55,36 @@ export class SharedAppStateService {
     }
   }
 
-  // This is some wierd thing I did that works
-  public callAPIThenSaveDataInAppStateAndReturnResultAsCachedReplayOfObservable() {
-    // I think this creates an observable that is a cached version (replay) of the api returned observable
+  public preloadCourseList(): Observable<GolfCourse[]> {
+    const storage_courseList= this.storageService.read('courseList');
+    // check if the data is already in local storage, return it
+    if (storage_courseList != null){
+      console.log('data is already in storage');
+      return of(storage_courseList).pipe(shareReplay(1));
+    }
+    // if not, call api and compile date, then return it
     const courseListReplay$: Observable<GolfCourse[]> = this.APIService.fetchGolfCourses().pipe(shareReplay(1));
-    // Now I'm just going to subscribe for long enough to grab the data, then save it in the global state so any component can ask for it later
-    let temporarySubscription: Subscription = courseListReplay$.subscribe( data => {
-      this.set("courseList", data); // got what I need, thanks
-      temporarySubscription.unsubscribe(); // I have to unsubscribe now, bye
+    courseListReplay$.pipe(first()).subscribe((data:GolfCourse[]) => {
+      this.set("courseList", data);
+      this.joinCourseDetails();
     });
-    // now just pass this observable along to whoever wants to subscribe to it.
     return courseListReplay$;
   }
 
+  private joinCourseDetails() {
+    let requestIDList = [];
+    this._appState.courseList.forEach( course => {
+      requestIDList.push(course.id)
+    });
+    forkJoin({
+      req0: this.APIService.fetchCourseDetails(requestIDList[0]), // you can pipe and map here
+      req1: this.APIService.fetchCourseDetails(requestIDList[1]),
+      req2: this.APIService.fetchCourseDetails(requestIDList[2])
+    }).subscribe( ({req0,req1,req2}) => {
+      this._appState.courseList[0].details = req0;
+      this._appState.courseList[1].details = req1;
+      this._appState.courseList[2].details = req2;
+      this.storageService.write('courseList', this._appState.courseList);
+    });
+  }
 }

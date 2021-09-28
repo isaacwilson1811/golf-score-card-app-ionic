@@ -12,7 +12,7 @@ export interface GolfCourse {
   image:string
 }
 
-export interface CourseDetails {
+interface CourseDetails {
   id: string,
   includes: string
   courseId: number,
@@ -57,7 +57,7 @@ export interface CourseDetails {
   holes: Hole[]
 }
 
-export interface Hole {
+interface Hole {
   hole: number,
   courseHoleId: number,
   courseId: number,
