@@ -15,6 +15,7 @@ export class HomePage implements OnInit{
   public currentUser$!: Observable<any>;
   public currentUserSub!: Subscription;
   public isAuthed!: boolean;
+  public currentUserEmail!: string | undefined;
   public courseList$!: Observable<GolfCourse[]>;
 
   constructor(
@@ -30,10 +31,10 @@ export class HomePage implements OnInit{
 
   subscribeToCurrentUser(): void {
     this.currentUser$ = this.firebase.observableUser();
-    this.currentUserSub = this.currentUser$.subscribe((_)=>{
-      console.log('subscription: ', _ );
-      if( _ === null){ this.isAuthed = false }
-      else{ this.isAuthed = true };
+    this.currentUserSub = this.currentUser$.subscribe(( user )=>{
+      console.log('subscription: ', user );
+      if( user === null){ this.isAuthed = false; this.currentUserEmail = undefined; }
+      else{ this.isAuthed = true; this.currentUserEmail = user.email };
     });
   }
 

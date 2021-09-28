@@ -1,5 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="end">
+      <span *ngIf="isAuthed">Hello {{currentUserEmail}}</span>
+      <ion-button *ngIf="!isAuthed" color="primary" (click)="testSignIn()">Sign In</ion-button>
+      <ion-button *ngIf="isAuthed" color="primary" (click)="testSignOut()">Sign Out</ion-button>
+    </ion-buttons>
     <ion-title>
       Golf Score Card App
     </ion-title>
@@ -7,45 +12,42 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Golf Score Card App</ion-title>
     </ion-toolbar>
-  </ion-header>
-
-  <ion-button (click)="testSignIn()">Sign In</ion-button>
-  <ion-button (click)="testSignOut()">Sign Out</ion-button>
-
-  <div *ngIf="courseList$ | async as courseList; else loading">
-
-
-    <ion-item>
-      <h1>Choose Your Golf Course</h1>
-    </ion-item>
-
-    <ion-card *ngFor="let course of courseList">
-      <ion-card-header>
-        <ion-card-title>
-          {{course.name}}
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-
-        <ion-item>
-          <ion-thumbnail slot="start">
-            <img src="{{course.image}}">
-          </ion-thumbnail>
-          <ion-label>It's a Golf Course. <br /> The Course ID is {{course.id}}</ion-label>
-        </ion-item>
-        <ion-button expand="full" shape="round" (click)="navigateToSetupPage(course.id)">Play Golf Here</ion-button>
-      </ion-card-content>
-    </ion-card>
-  </div>
-  
-  <ng-template #loading>
-    <div>
-      <h2>Loading Golf Courses...</h2>
+  </ion-header> -->
+  <div *ngIf="isAuthed; else pleaseSignIn">
+    <div *ngIf="courseList$ | async as courseList; else loading">
+      <ion-item>
+        <h1>Choose Your Golf Course</h1>
+      </ion-item>
+      <ion-card *ngFor="let course of courseList">
+        <ion-card-header>
+          <ion-card-title>
+            {{course.name}}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <img src="{{course.image}}">
+            </ion-thumbnail>
+            <ion-label>It's a Golf Course. <br /> The Course ID is {{course.id}}</ion-label>
+          </ion-item>
+          <ion-button expand="full" shape="round" (click)="navigateToSetupPage(course.id)">Play Golf Here</ion-button>
+        </ion-card-content>
+      </ion-card>
     </div>
+    <ng-template #loading>
+      <div>
+        <h2>Loading Golf Courses...</h2>
+      </div>
+    </ng-template>
+  </div>
+  <ng-template #pleaseSignIn>
+    <ion-item>
+      <h1>Please Sign In</h1>
+    </ion-item>
   </ng-template>
-  
 </ion-content>
