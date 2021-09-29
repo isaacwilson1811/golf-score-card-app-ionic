@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      GOLF
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="saveData()">Save Current ScoreCard Data</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-card *ngFor="let card of holeCardList; let i = index">
+    <ion-card-header>
+      <ion-card-title>{{card.title}}</ion-card-title>
+      <ion-card-subtitle>Yards 100</ion-card-subtitle>
+      <ion-card-subtitle>{{card.subtitle}}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let score of card.scoreList; let j = index">
+          <ion-input type="text" value="{{score.playerName}}" disabled></ion-input>
+          <ion-label>Strokes:</ion-label>
+          <ion-input color="primary" type="number" value="{{score.strokes}}" min="0"
+            [(ngModel)]="holeCardList[i].scoreList[j].strokes"
+            (ngModelChange)="calcTotals(holeCardList[i].scoreList[j].playerName, i, $event)"
+            >
+          </ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- TOTALS -->
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>TOTALS</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let card of totalsCard">
+          <ion-label>{{card.name}}</ion-label>
+          Total Strokes: {{card.totalStrokes}}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+<!-- <p>totalsCard</p>
+<pre>{{totalsCard | json}}</pre>  
+
+<p>holeCardList</p>
+<pre>{{holeCardList | json}}</pre> -->
+
+</ion-content>

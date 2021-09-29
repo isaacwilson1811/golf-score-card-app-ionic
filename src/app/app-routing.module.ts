@@ -22,6 +22,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./current-game/current-game.module').then( m => m.CurrentGamePageModule)
   },
+  {
+    path: 'continue-game',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./continue-game/continue-game.module').then( m => m.ContinueGamePageModule)
+  },
 ];
 
 @NgModule({

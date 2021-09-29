@@ -30,7 +30,7 @@ export class FireStoreService {
     const Sub: Subscription = Obs.subscribe((document:any) => {
       sessionStorage.setItem('holeCardList', JSON.stringify(document.holeCardList));
       sessionStorage.setItem('totalsCard', JSON.stringify(document.totalsCard));
-      // TODO route navigate to a load scorecard page
+      this.router.navigateByUrl('continue-game');
       Sub.unsubscribe();
     });
   }
