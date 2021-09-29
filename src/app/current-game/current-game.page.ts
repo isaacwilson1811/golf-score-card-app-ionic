@@ -6,6 +6,7 @@ import { FireStoreService } from '../services/firestore.service';
 interface HoleCard {
   title: string;
   subtitle: string;
+  subtitle2: string;
   scoreList: PlayerScore[];
 }
 interface PlayerScore {
@@ -58,9 +59,11 @@ export class CurrentGamePage implements OnInit {
 
   createHoleCards(){
     for (let i = 0; i < 9; i++){
+      const parArr = this.getParArr();
       const holeCard:HoleCard = {
         title: `Hole ${i+1}`,
-        subtitle: 'Par 3',
+        subtitle: `Par ${parArr[i].par}`,
+        subtitle2: `Yards ${parArr[i].yards}`,
         scoreList: []
       }
       this.formData.playersList.forEach((player:any)=>{
@@ -72,6 +75,36 @@ export class CurrentGamePage implements OnInit {
       });
       this.holeCardList.push(holeCard);
     }
+  }
+
+  private getParArr(): any[] {
+    const CourseID:number = JSON.parse(localStorage.getItem('GOLFDATA_selectedCourseID'));
+    const CourseList:any[] = JSON.parse(localStorage.getItem('GOLFDATA_courseList'));
+    const parArr = [];
+    switch(CourseID){
+      case 18300:{
+        CourseList[0].details.holes.forEach((hole:any)=>{
+          const thing = {par: hole.teeBoxes[0].par, yards: hole.teeBoxes[0].yards}
+          parArr.push(thing);
+        });
+        break;
+      }
+      case 11819:{
+        CourseList[1].details.holes.forEach((hole:any)=>{
+          const thing = {par: hole.teeBoxes[0].par, yards: hole.teeBoxes[0].yards}
+          parArr.push(thing);
+        });
+        break;
+      }
+      case 19002:{
+        CourseList[2].details.holes.forEach((hole:any)=>{
+          const thing = {par: hole.teeBoxes[0].par, yards: hole.teeBoxes[0].yards}
+          parArr.push(thing);
+        });
+        break;
+      }
+    }
+    return parArr;
   }
 
   createTotalsCard(){
