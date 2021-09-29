@@ -2,6 +2,30 @@ import { SharedAppStateService } from '../services/shared-app-state.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+interface HoleCard {
+  title: string;
+  subtitle: string;
+  scoreList: PlayerScore[];
+}
+interface PlayerScore {
+  playerName: string,
+  strokes: number
+}
+class PlayerTotals {
+  constructor(name:string, strokesList: number[]){
+    this.name = name;
+    this.strokesList = strokesList;
+    this.totalStrokes = 0;
+  }
+  name: string
+  strokesList: number[]
+  totalStrokes: number;
+  calcTotalStrokes() {
+    this.totalStrokes = this.strokesList.reduce((acc, cur) => {
+      return acc + cur}, 0);
+  }
+}
+
 @Component({
   selector: 'app-current-game',
   templateUrl: './current-game.page.html',
@@ -9,28 +33,9 @@ import { Router } from '@angular/router';
 })
 export class CurrentGamePage implements OnInit {
 
-  public data: any;
-
-  public cardList = [
-    {
-      title:'Hole 1',
-      subtitle: 'Par 3',
-      scoreList: [
-        {playerName:'Jim Bob', strokes: 4},
-        {playerName:'Anna Grahm', strokes: 2},
-        {playerName:'Steve Dave', strokes: 3}
-      ]
-    },
-    {
-      title:'Hole 2',
-      subtitle: 'Par 3',
-      scoreList: [
-        {playerName:'Jim Bob', strokes: 1},
-        {playerName:'Anna Grahm', strokes: 3},
-        {playerName:'Steve Dave', strokes: 5}
-      ]
-    }
-  ]
+  public formData: any;
+  public holeCardList: HoleCard[] = [];
+  public totalsCard = [];
 
   constructor(
     private appState: SharedAppStateService,
@@ -38,11 +43,47 @@ export class CurrentGamePage implements OnInit {
   ){  
     if (this.router.getCurrentNavigation().extras.state) {
         const state = this.router.getCurrentNavigation().extras.state;
-        this.data = state;
+        this.formData = state;
       }
   }
 
   ngOnInit() {
+    this.createHoleCards();
+    this.createTotalsCard();
+  }
+
+  createHoleCards(){
+    for (let i = 0; i < 9; i++){
+      const holeCard:HoleCard = {
+        title: `Hole ${i+1}`,
+        subtitle: 'Par 3',
+        scoreList: []
+      }
+      this.formData.playersList.forEach((player:any)=>{
+        const playerScore: PlayerScore = {
+          playerName: `${player.first_name} ${player.last_name}`,
+          strokes: 0
+        };
+        holeCard.scoreList.push(playerScore);
+      });
+      this.holeCardList.push(holeCard);
+    }
+  }
+
+  createTotalsCard(){
+    this.formData.playersList.forEach((player:any) => {
+      const playerTotals = new PlayerTotals(`${player.first_name} ${player.last_name}`, [0,0,0,0,0,0,0,0,0]);
+      this.totalsCard.push(playerTotals);
+    })
+  }
+
+  calcTotals(playerName:string, hole:number, value:number, ):void {
+    this.totalsCard.forEach((player:any)=>{
+      if (player.name === playerName){
+        player.strokesList[hole] = value;
+        player.calcTotalStrokes();
+      }
+    });
   }
 
 }

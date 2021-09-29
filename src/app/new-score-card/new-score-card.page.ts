@@ -99,12 +99,12 @@ export class NewScoreCardPage implements OnInit {
       golfCourseID: this.templateData.selectedCourseID,
       playersList: [...this.playerList],
     }
-    scoreCardData.playersList.forEach(player=>{
-      player.scores = [];
-      for(let i = 1; i < 10; i++){
-        player.scores.push({hole:i,strokes:0})
-      }
-    })
+    // scoreCardData.playersList.forEach(player=>{
+    //   player.scores = [];
+    //   for(let i = 1; i < 10; i++){
+    //     player.scores.push({hole:i,strokes:0})
+    //   }
+    // })
     this.sendDataToGame(scoreCardData);
   }
 
