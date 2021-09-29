@@ -44,7 +44,7 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let card of totalsCard">
-          <ion-label>{{card.name}}</ion-label>
+          <ion-label>{{card.name | randomMiddleName}}</ion-label>
           Total Strokes: {{card.totalStrokes}}
         </ion-item>
       </ion-list>

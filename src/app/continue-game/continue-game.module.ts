@@ -8,6 +8,8 @@ import { ContinueGamePageRoutingModule } from './continue-game-routing.module';
 
 import { ContinueGamePage } from './continue-game.page';
 
+import { RandomMiddleNamePipe } from '../custom-pipes/random-middle-name.pipe';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +17,6 @@ import { ContinueGamePage } from './continue-game.page';
     IonicModule,
     ContinueGamePageRoutingModule
   ],
-  declarations: [ContinueGamePage]
+  declarations: [ContinueGamePage, RandomMiddleNamePipe]
 })
 export class ContinueGamePageModule {}

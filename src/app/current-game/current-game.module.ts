@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CurrentGamePageRoutingModule } from './current-game-routing.module';
 
 import { CurrentGamePage } from './current-game.page';
+import { RandomMiddleNamePipe } from '../custom-pipes/random-middle-name.pipe';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { CurrentGamePage } from './current-game.page';
     IonicModule,
     CurrentGamePageRoutingModule
   ],
-  declarations: [CurrentGamePage]
+  declarations: [CurrentGamePage, RandomMiddleNamePipe]
 })
 export class CurrentGamePageModule {}
