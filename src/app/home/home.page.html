@@ -21,7 +21,7 @@
     <div *ngIf="courseList$ | async as courseList; else loading">
       <ion-item>
         <ion-label>Choose a Golf Course to start a new ScoreCard</ion-label>
-        <ion-button>Or Load Your Saved ScoreCard</ion-button>
+        <ion-button (click)="loadScoreCard()">Or Load Your Saved ScoreCard</ion-button>
       </ion-item>
       <ion-card *ngFor="let course of courseList">
         <ion-card-header>

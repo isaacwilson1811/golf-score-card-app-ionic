@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { FireStoreService } from '../services/firestore.service';
 import { Router } from '@angular/router';
 import { SharedAppStateService } from '../services/shared-app-state.service';
 import { GolfCourse } from '../services/golf-course-data.service'; // I just need to use this interface here, not needing the service
@@ -20,6 +21,7 @@ export class HomePage implements OnInit{
 
   constructor(
     private auth: AuthService,
+    private dbService: FireStoreService,
     private appState: SharedAppStateService,
     private router: Router
   ) {}
@@ -43,11 +45,8 @@ export class HomePage implements OnInit{
     this.router.navigate(['new'], {state: {selectedCourseID: courseID}});
   }
 
-  testSignIn(){
-    this.auth.signinUser({email:'fake@fake.com', password:'123456'});
-  }
-  testSignOut(){
-    this.auth.signoutUser();
+  loadScoreCard() {
+    this.dbService.loadData();
   }
 }
 
