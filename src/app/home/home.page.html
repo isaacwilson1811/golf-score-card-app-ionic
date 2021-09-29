@@ -3,7 +3,7 @@
     <ion-buttons slot="end">
       <span *ngIf="isAuthed">Hello {{currentUserEmail}}</span>
       <span *ngIf="!isAuthed">Not Signed In &nbsp;</span>
-      <ion-button *ngIf="isAuthed" color="primary" (click)="testSignOut()">Sign Out</ion-button>
+      <ion-button *ngIf="isAuthed" color="primary" (click)="signOut()">Sign Out</ion-button>
     </ion-buttons>
     <ion-title>
       Golf Score Card App

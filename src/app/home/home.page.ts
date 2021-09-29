@@ -45,6 +45,10 @@ export class HomePage implements OnInit{
     this.router.navigate(['new'], {state: {selectedCourseID: courseID}});
   }
 
+  signOut() {
+    this.auth.signoutUser();
+  }
+
   loadScoreCard() {
     this.dbService.loadData();
   }
