@@ -12,7 +12,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule, PERSISTENCE } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 // my firebase service
-import { FirebaseService } from './services/firebase.service';
+import { FireStoreService } from './services/firestore.service';
 import { AuthService } from './services/auth.service';
 
 
@@ -32,11 +32,8 @@ import { AuthService } from './services/auth.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SharedAppStateService,
     AuthService,
-    FirebaseService,
-    {
-      provide: PERSISTENCE,
-      useValue: 'session'
-    }
+    { provide: PERSISTENCE, useValue: 'session'},
+    FireStoreService
   ],
   bootstrap: [AppComponent],
 })

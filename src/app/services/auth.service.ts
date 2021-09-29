@@ -19,6 +19,10 @@ export class AuthService {
     return this.auth.user
   }
 
+  getUserPromise(): Promise<User> | Promise<null> {
+    return this.auth.currentUser;
+  }
+
   createUser(values:SignInValues): Promise<any> {
     return new Promise<any>(( resolve, reject ) => {
       this.auth.createUserWithEmailAndPassword( values.email, values.password )

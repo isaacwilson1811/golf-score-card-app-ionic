@@ -1,6 +1,7 @@
-import { SharedAppStateService } from '../services/shared-app-state.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedAppStateService } from '../services/shared-app-state.service';
+import { FireStoreService } from '../services/firestore.service';
 
 interface HoleCard {
   title: string;
@@ -34,11 +35,14 @@ class PlayerTotals {
 export class CurrentGamePage implements OnInit {
 
   public formData: any;
+
+  // save and load this data, but remake the object from the class with the totaling method
   public holeCardList: HoleCard[] = [];
   public totalsCard = [];
 
   constructor(
     private appState: SharedAppStateService,
+    private dbService: FireStoreService,
     private router: Router
   ){  
     if (this.router.getCurrentNavigation().extras.state) {
@@ -84,6 +88,12 @@ export class CurrentGamePage implements OnInit {
         player.calcTotalStrokes();
       }
     });
+  }
+
+  saveData() {
+    const normalObject = JSON.parse(JSON.stringify(this.totalsCard));
+    const DTO = { holeCardList: this.holeCardList, totalsCard: normalObject };
+    this.dbService.saveData(DTO);
   }
 
 }
